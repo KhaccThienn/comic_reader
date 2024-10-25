@@ -146,38 +146,44 @@ class Review {
 
 class User {
   final int? id;
-  final String name;
-  final String email;
-  final String password;
-  final String avatar;
-  final String role;
+  final String? name;
+  final String? email;
+  final String? password;
+  final String? avatar;
+  final String? role;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final List<Review>? reviews;
 
   User({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.password,
-    required this.avatar,
-    required this.role,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.reviews,
+    this.id,
+    this.name,
+    this.email,
+    this.password,
+    this.avatar,
+    this.role,
+    this.createdAt,
+    this.updatedAt,
+    this.reviews,
   });
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
-      id: json['id'] ?? 0,
-      name: json['name'] ?? "",
-      email: json['email'] ?? "",
-      password: json['password'] ?? "",
-      avatar: json['avatar'] ?? "",
-      role: json['role'] ?? "",
-      createdAt: DateTime.parse(json['createdAt']),
-      updatedAt: DateTime.parse(json['updatedAt']),
-      reviews: List<Review>.from(json['reviews']),
+      id: json['id'] != null ? json['id'] as int : null,
+      name: json['name'] as String?,
+      email: json['email'] as String?,
+      password: json['password'] as String?,
+      avatar: json['avatar'] as String?,
+      role: json['role'] as String?,
+      createdAt: json['createdAt'] != null
+          ? DateTime.parse(json['createdAt'])
+          : null,
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.parse(json['updatedAt'])
+          : null,
+      reviews: json['reviews'] != null
+          ? List<Review>.from(json['reviews'])
+          : null,
     );
   }
 
@@ -196,5 +202,4 @@ class User {
           : [], // Convert List<Review> to List<Map>
     };
   }
-
 }

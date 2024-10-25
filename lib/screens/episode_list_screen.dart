@@ -53,7 +53,9 @@ class _EpisodeListScreenState extends State<EpisodeListScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ViewChapterImages(chapterId: episode.id!),
+                  builder: (context) => ViewChapterImages(
+                    comicId: episode.comicId!,
+                    displayOrder: episode.displayOrder!,),
                 ),
               );
             },

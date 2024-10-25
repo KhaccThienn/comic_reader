@@ -1,6 +1,7 @@
 import 'package:anim_search/providers/data_provider.dart';
 import 'package:anim_search/screens/anime_follow_page.dart';
 import 'package:anim_search/screens/anime_grid_screen.dart';
+import 'package:anim_search/screens/history_screen.dart';
 import 'package:anim_search/screens/list_category_page.dart';
 import 'package:anim_search/screens/login_screen.dart';
 import 'package:anim_search/screens/profile_screen.dart';
@@ -8,6 +9,7 @@ import 'package:anim_search/screens/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar_2/material_floating_search_bar_2.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -31,39 +33,39 @@ class _HomeScreenState extends State<HomeScreen> {
     AnimeGridPage(),
     ListCategoryPage(),
     AnimeFollowPage(),
-    ProfileScreen()
+    HistoryScreen(),
+    ProfileScreen(),
   ];
 
-  Widget _buttonBuilder(String name, int myIndex) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedIndex = myIndex;
-          getData();
-        });
+  void _showLogoutConfirmation(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text("Logout"),
+          content: Text("Are you sure you want to log out?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Dismiss the dialog
+              },
+              child: Text("Cancel"),
+            ),
+            TextButton(
+              onPressed: () async {
+                var prefs = await SharedPreferences.getInstance();
+                prefs.clear();
+                Navigator.of(context).pop(); // Dismiss the dialog
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                ); // Navigate to the login screen after logout
+              },
+              child: Text("Logout"),
+            ),
+          ],
+        );
       },
-      child: FittedBox(
-        child: Container(
-          margin: EdgeInsets.symmetric(horizontal: 5),
-          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 2.5),
-          decoration: BoxDecoration(
-            color: _selectedIndex == myIndex ? Colors.white : Colors.orange,
-            borderRadius: BorderRadius.circular(8),
-            border: Border.all(
-              color: Colors.orange,
-              width: .8,
-            ),
-          ),
-          child: Text(
-            name,
-            style: TextStyle(
-              fontSize: 17,
-              fontWeight: FontWeight.w600,
-              color: _selectedIndex == myIndex ? Colors.orange : Colors.white,
-            ),
-          ),
-        ),
-      ),
     );
   }
 
@@ -115,12 +117,27 @@ class _HomeScreenState extends State<HomeScreen> {
               },
             ),
             ListTile(
-              title: Text('User Management'),
+              title: Text('History'),
               onTap: () {
                 setState(() {
                   _selectedIndex = 3;
                 });
                 Navigator.pop(context); // Close the drawer
+              },
+            ),
+            ListTile(
+              title: Text('Profile'),
+              onTap: () {
+                setState(() {
+                  _selectedIndex = 4;
+                });
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+            ListTile(
+              title: Text('Logout'),
+              onTap: () {
+                _showLogoutConfirmation(context);
               },
             ),
           ],

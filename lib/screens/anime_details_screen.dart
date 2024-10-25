@@ -1,6 +1,7 @@
 import 'package:anim_search/commons/constants.dart';
 import 'package:anim_search/models/ComicDetail.dart';
 import 'package:anim_search/models/comic.dart';
+import 'package:anim_search/models/episode_and_images.dart';
 import 'package:anim_search/providers/data_provider.dart';
 import 'package:anim_search/screens/episode_list_screen.dart';
 import 'package:anim_search/widgets/anime_details_actor.dart';
@@ -27,7 +28,7 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
   var _isInit = true;
   var _isFavorite = false;
   late int comicId;
-
+  
   final TextEditingController _commentController =
       TextEditingController(); // Controller for comment field
   bool _isSubmitting = false; // State to track submission status
