@@ -1,0 +1,39 @@
+name: anim_search
+description: A new Flutter project.
+
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: "^3.5.3"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  provider: ^6.1.2
+  http: ^1.2.2
+  logger: ^2.4.0
+  dio: ^5.7.0
+  intl:
+  flutter_staggered_grid_view: ^0.7.0
+  material_floating_search_bar_2: ^0.5.0
+  webview_flutter: ^4.10.0
+  auto_animated: ^3.0.0
+  cupertino_icons: ^1.0.2
+  shared_preferences: ^2.3.2
+  flutter_html:
+  line_awesome_flutter:
+  file_picker:
+  image_picker:
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - lib/images/google.png
+    - lib/images/apple.png
