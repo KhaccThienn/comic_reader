@@ -116,8 +116,8 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final dataProvider = Provider.of<DataProvider>(context);
-    final Comic animeData = dataProvider.comic;
-    final ComicDetail comicDetail = dataProvider.comicDetail;
+    final Comic animeData = dataProvider.comic!;
+    final ComicDetail comicDetail = dataProvider.comicDetail!;
     final device = MediaQuery.of(context);
     final screenWidth = device.size.width;
 
@@ -328,6 +328,7 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
                               'Post a Comment',
                               style: TextStyle(
                                 fontSize: 18,
+
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -361,7 +362,7 @@ class _AnimeDetailScreenState extends State<AnimeDetailScreen> {
                                     ? CircularProgressIndicator(
                                   color: Colors.white,
                                 )
-                                    : Text('Post Comment'),
+                                    : Text('Post Comment', style: TextStyle(color: Colors.black,),),
                               ),
                             ),
                           ),

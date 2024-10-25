@@ -16,7 +16,6 @@ import 'package:logger/logger.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class DataProvider with ChangeNotifier {
   bool isLoading = false;
   bool isError = false;
@@ -214,6 +213,43 @@ class DataProvider with ChangeNotifier {
     return request.send();
   }
 
+  Future<bool> UpdatePassword(
+      {required int userId,
+        required String oldPass,
+        required String newPass
+      }) async {
+    Logger log = Logger();
+    String uri = "${Constants.domain_uri}/api/User/ChangePassword/$userId";
+
+    try {
+      log.d({
+        "userId": userId,
+        "oldPass": oldPass,
+        "newPass": newPass,
+      });
+      final response = await http.put(Uri.parse(uri),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode({
+            "OldPassword": oldPass,
+            "NewPassword": newPass,
+          }));
+      log.d(response.body);
+
+      if (response.statusCode == 200) {
+        dynamic jsonData = jsonDecode(response.body);
+        user1 = User.fromJson(jsonData as Map<String, dynamic>);
+        notifyListeners();
+        return true; // Return true indicating success
+      } else {
+        return false; // Return false for unsuccessful
+      }
+    } catch (e) {
+      log.e('Error occurred: $e');
+      throw Exception(e);
+    }
+  }
 
   Future<void> getHomeData() async {
     Logger log = Logger();
@@ -398,16 +434,27 @@ class DataProvider with ChangeNotifier {
       isLoading = true;
       isError = false;
       final response = await http.get(Uri.parse(uri));
+      log.d(response.statusCode);
       log.d(response.body);
 
-      if (response.statusCode == 200) {
-        List<dynamic> jsonData = jsonDecode(response.body);
-        reviews = jsonData.map((review) => ComicReview.fromJson(review)).toList();
-        isLoading = false;
-        notifyListeners();
-      } else {
-        isError = true;
-        errorMessage = 'Failed to load reviews';
+      switch(response.statusCode){
+        case 200:
+          List<dynamic> jsonData = jsonDecode(response.body);
+          reviews = jsonData.map((review) => ComicReview.fromJson(review)).toList();
+          isLoading = false;
+          notifyListeners();
+          break;
+
+        case 204:
+          reviews = [];
+          isLoading = false;
+          notifyListeners();
+          break;
+
+        default:
+          isError = true;
+          errorMessage = 'Failed to load reviews';
+          break;
       }
     } catch (e) {
       log.e('Error occurred: $e');

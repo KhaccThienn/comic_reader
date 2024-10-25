@@ -1,6 +1,7 @@
 import 'package:anim_search/providers/data_provider.dart';
 import 'package:anim_search/screens/anime_follow_page.dart';
 import 'package:anim_search/screens/anime_grid_screen.dart';
+import 'package:anim_search/screens/change_password.dart';
 import 'package:anim_search/screens/history_screen.dart';
 import 'package:anim_search/screens/list_category_page.dart';
 import 'package:anim_search/screens/login_screen.dart';
@@ -15,7 +16,7 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
@@ -35,6 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     AnimeFollowPage(),
     HistoryScreen(),
     ProfileScreen(),
+    ChangePassword()
   ];
 
   void _showLogoutConfirmation(BuildContext context) {
@@ -130,6 +132,15 @@ class _HomeScreenState extends State<HomeScreen> {
               onTap: () {
                 setState(() {
                   _selectedIndex = 4;
+                });
+                Navigator.pop(context); // Close the drawer
+              },
+            ),
+            ListTile(
+              title: Text('Change Password'),
+              onTap: () {
+                setState(() {
+                  _selectedIndex = 5;
                 });
                 Navigator.pop(context); // Close the drawer
               },

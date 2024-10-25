@@ -79,8 +79,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // Assuming userData is of type User and has fields name and email
     if (provider.user1 != null) {
       setState(() {
-        _nameController.text = provider.user1.name!;
-        _emailController.text = provider.user1.email!;
+        _nameController.text = provider.user1!.name!;
+        _emailController.text = provider.user1!.email!;
       });
     }
   }
@@ -96,8 +96,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     var isDark = MediaQuery.of(context).platformBrightness == Brightness.dark;
     final dataProvider = Provider.of<DataProvider>(context);
-    final User user = dataProvider.user1;
-    final String old_avatar = "${Constants.domain_uri}/${user.avatar}";
+    final User? user = dataProvider.user1;
+    final String old_avatar = "${Constants.domain_uri}/${user!.avatar}";
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
